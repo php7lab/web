@@ -2,7 +2,7 @@
 
 namespace PhpLab\Web\Twig;
 
-use PhpLab\Core\Domain\Data\DataProviderEntity;
+use PhpLab\Core\Domain\Entities\DataProviderEntity;
 use PhpLab\Web\Widgets\PaginationWidget;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;

@@ -2,7 +2,7 @@
 
 namespace PhpLab\Web\Widgets;
 
-use PhpLab\Core\Domain\Data\DataProviderEntity;
+use PhpLab\Core\Domain\Entities\DataProviderEntity;
 use PhpLab\Web\BaseWidget;
 
 class PaginationWidget extends BaseWidget
