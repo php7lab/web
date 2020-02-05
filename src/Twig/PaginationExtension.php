@@ -4,6 +4,7 @@ namespace PhpLab\Web\Twig;
 
 use PhpLab\Core\Domain\Entities\DataProviderEntity;
 use PhpLab\Web\Widgets\PaginationWidget;
+use Symfony\Component\HttpFoundation\Request;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -17,9 +18,9 @@ class PaginationExtension extends AbstractExtension
         ];
     }
 
-    public function pagination(DataProviderEntity $dataProviderEntity)
+    public function pagination(DataProviderEntity $dataProviderEntity, Request $request)
     {
-        $widgetInstance = new PaginationWidget($dataProviderEntity);
+        $widgetInstance = new PaginationWidget($dataProviderEntity, $request);
         return $widgetInstance->render();
     }
 

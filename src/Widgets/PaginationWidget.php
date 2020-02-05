@@ -4,16 +4,19 @@ namespace PhpLab\Web\Widgets;
 
 use PhpLab\Core\Domain\Entities\DataProviderEntity;
 use PhpLab\Web\BaseWidget;
+use Symfony\Component\HttpFoundation\Request;
 
 class PaginationWidget extends BaseWidget
 {
 
     private $dataProviderEntity;
-    private $perPageArray = [10, 20, 50];
+    private $request;
+    private $perPageOptions = [10, 20, 50];
 
-    public function __construct(DataProviderEntity $dataProviderEntity)
+    public function __construct(DataProviderEntity $dataProviderEntity, Request $request)
     {
         $this->dataProviderEntity = $dataProviderEntity;
+        $this->request = $request;
     }
 
     public function render(): string
@@ -27,28 +30,46 @@ class PaginationWidget extends BaseWidget
         return $this->renderLayout($itemsHtml);
     }
 
+    private function generateUrl(int $page = 1)
+    {
+        $queryParams = $this->request->query->all();
+        $queryParams['per-page'] = $this->dataProviderEntity->getPageSize();
+        $queryParams['page'] = $page;
+        $queryString = http_build_query($queryParams);
+        return '?' . $queryString;
+    }
+
+    private function generateItemsData(int $pageStart, int $pageEnd)
+    {
+        $items = [];
+        for ($page = $pageStart; $page <= $pageEnd; $page++) {
+            $isActive = $this->dataProviderEntity->getPage() == $page;
+            $items[] = [
+                'label' => $page,
+                'url' => $this->generateUrl($page),
+                'active' => $isActive ? 'active' : '',
+            ];
+        }
+        return $items;
+    }
 
     private function renderItems()
     {
         $items = [];
+
         $items[] = [
             'label' => '&laquo;',
-            'url' => '?page=' . $this->dataProviderEntity->getPrevPage(),
+            'url' => $this->generateUrl($this->dataProviderEntity->getPrevPage()),
             'encode' => false,
             'options' => ['class' => ($this->dataProviderEntity->isFirstPage() ? 'page-item disabled' : 'page-item')],
         ];
 
-        for ($page = 1; $page <= $this->dataProviderEntity->getPageCount(); $page++) {
-            $items[] = [
-                'label' => $page,
-                'url' => '?page=' . $page,
-                'active' => ($this->dataProviderEntity->getPage() == $page) ? 'active' : '',
-            ];
-        }
+        $its = $this->generateItemsData(1, $this->dataProviderEntity->getPageCount());
+        $items = array_merge($items, $its);
 
         $items[] = [
             'label' => '&raquo;',
-            'url' => '?page=' . $this->dataProviderEntity->getNextPage(),
+            'url' => $this->generateUrl($this->dataProviderEntity->getNextPage()),
             'encode' => false,
             'options' => ['class' => ($this->dataProviderEntity->isLastPage() ? 'page-item disabled' : 'page-item')],
         ];
@@ -76,12 +97,16 @@ class PaginationWidget extends BaseWidget
 
     private function renderPageSizeSelector()
     {
-        if (empty($this->perPageArray)) {
+        if (empty($this->perPageOptions)) {
             return '';
         }
         $html = '';
-        foreach ($this->perPageArray as $size) {
-            $html .= "<a class=\"dropdown-item\" href='?per-page={$size}'>{$size}</a>";
+        $queryParams = $this->request->query->all();
+        foreach ($this->perPageOptions as $size) {
+            $queryParams['per-page'] = $size;
+            $queryParams['page'] = 1;
+            $queryString = http_build_query($queryParams);
+            $html .= "<a class=\"dropdown-item\" href='?{$queryString}'>{$size}</a>";
         }
         return "
             <li class=\"page-item \">
