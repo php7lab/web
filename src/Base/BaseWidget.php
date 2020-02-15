@@ -2,6 +2,7 @@
 
 namespace PhpLab\Web;
 
+use PhpLab\Core\Helpers\StringHelper;
 use PhpLab\Web\Interfaces\WidgetInterface;
 
 abstract class BaseWidget implements WidgetInterface
@@ -11,11 +12,6 @@ abstract class BaseWidget implements WidgetInterface
 
     protected function renderTemplate(string $templateCode, array $params)
     {
-        $newParams = [];
-        foreach ($params as $name => $value) {
-            $name = '{' . $name . '}';
-            $newParams[$name] = $value;
-        }
-        return strtr($templateCode, $newParams);
+        return StringHelper::renderTemplate($templateCode, $params);
     }
 }
