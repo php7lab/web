@@ -10,9 +10,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "symfony/twig-bundle": "4.*",
-    "symfony/http-client": "4.*",
-    "symfony/asset": "4.*"
+
   },
   "autoload": {
     "psr-4": {
