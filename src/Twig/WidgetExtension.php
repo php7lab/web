@@ -2,14 +2,23 @@
 
 namespace PhpLab\Web\Twig;
 
-use PhpLab\Web\Widgets\WidgetInterface;
+use PhpLab\Core\Helpers\DiHelper;
+use PhpLab\Web\Interfaces\WidgetInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
+use Psr\Container\ContainerInterface;
 
 class WidgetExtension extends AbstractExtension
 {
 
     private $items = [];
+    protected $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
 
     public function getFunctions()
     {
@@ -21,7 +30,7 @@ class WidgetExtension extends AbstractExtension
     public function widget(string $widgetClass, array $params = [])
     {
         /** @var WidgetInterface $widget */
-        $widget = new $widgetClass;
+        $widget = DiHelper::make($widgetClass, $this->container);
         foreach ($params as $paramName => $paramValue) {
             $widget->{$paramName} = $paramValue;
         }
