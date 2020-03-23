@@ -22,7 +22,7 @@ class NavbarMenuWidget extends \PhpLab\Web\Widgets\MenuWidget
 
     public function __construct()
     {
-        $this->items = include(__DIR__ . '/../../../../../config/menu/web.php');
+        $this->items = include(__DIR__ . '/../../../../../config/extra/menu/web.php');
     }
 
 }
