@@ -3,7 +3,7 @@
 namespace PhpLab\Web\Widgets;
 
 use PhpLab\Core\Domain\Entities\DataProviderEntity;
-use PhpLab\Web\BaseWidget;
+use PhpLab\Web\Base\BaseWidget;
 use Symfony\Component\HttpFoundation\Request;
 
 class PaginationWidget extends BaseWidget

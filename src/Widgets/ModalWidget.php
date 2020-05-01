@@ -2,7 +2,7 @@
 
 namespace PhpLab\Web\Widgets;
 
-use PhpLab\Web\BaseWidget;
+use PhpLab\Web\Base\BaseWidget;
 
 class ModalWidget extends BaseWidget
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace PhpLab\Web;
+namespace PhpLab\Web\Base;
 
 use PhpLab\Core\Helpers\StringHelper;
 use PhpLab\Web\Interfaces\WidgetInterface;

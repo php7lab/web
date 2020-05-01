@@ -3,10 +3,9 @@
 namespace PhpLab\Web\Widgets;
 
 use Closure;
-use PhpLab\Core\Legacy\Yii\Base\Widget;
 use PhpLab\Core\Legacy\Yii\Helpers\ArrayHelper;
 use PhpLab\Core\Legacy\Yii\Helpers\Html;
-use PhpLab\Web\BaseWidget;
+use PhpLab\Web\Base\BaseWidget;
 
 class MenuWidget extends BaseWidget
 {
